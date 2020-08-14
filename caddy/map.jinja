@@ -1,0 +1,14 @@
+{% set caddy = salt.grains.filter_by({
+    'default': {
+        'pkgs': ['caddy'],
+        'service': 'caddy',
+        'conf_file': '/etc/caddy/caddy.conf',
+        'config': {
+            'key': 'value',
+        },
+    },
+    'Debian': {
+    },
+    'RedHat': {
+    },
+}, grain='os_family', merge=salt.pillar.get('caddy'), base='default') %}

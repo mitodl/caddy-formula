@@ -1,0 +1,9 @@
+name: caddy
+os: RedHat, CentOS, Ubuntu, Debian
+os_family: RedHat, Debian
+version: 202008
+release: 1
+summary: SaltStack formula for installing and managing the Caddy reverse proxy service
+description: SaltStack formula for installing and managing the Caddy reverse proxy service
+top_level_dir: caddy
+recommended: 
