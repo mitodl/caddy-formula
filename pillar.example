@@ -1,7 +1,6 @@
 # -*- mode: yaml -*-
 caddy:
-  overrides:
-    pkg: caddy
-    conf_file: /usr/local/etc/caddy/caddy.conf
   config:
-    key: othervalue
+    apps:
+      http:
+        http_port: 80

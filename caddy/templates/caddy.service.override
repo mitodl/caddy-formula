@@ -1,0 +1,5 @@
+[Service]
+ExecStart=
+ExecStart=/usr/bin/caddy run --environ --config {{ config_file }} {% if enable_api %}--resume{% endif %}
+ExexReload=
+ExecReload=/usr/bin/caddy reload --config {{ config_file }}
