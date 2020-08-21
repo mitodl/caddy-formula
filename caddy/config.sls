@@ -1,15 +1,13 @@
-{% from "caddy/map.jinja" import caddy with context %}
+#!pyobjects
+import json
 
-include:
-  - .install
-  - .service
+caddy = salt.jinja.load_map('caddy/map.jinja', 'caddy')
 
-caddy-config:
-  file.managed:
-    - name: {{ caddy.conf_file }}
-    - source: salt://caddy/templates/conf.jinja
-    - template: jinja
-    - watch_in:
-      - service: caddy_service_running
-    - require:
-      - pkg: caddy
+include('.service')
+
+File.managed('write_caddy_config',
+             name=caddy['config_file'],
+             contents=json.dumps(caddy['config'], indent=2, sort_keys=True),
+             makedirs=True,
+             user=caddy['user'],
+             watch_in=[Service('caddy_service_running')])
