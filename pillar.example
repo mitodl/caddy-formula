@@ -1,5 +1,6 @@
 # -*- mode: yaml -*-
 caddy:
+  install_from_repo: False
   config:
     apps:
       http:

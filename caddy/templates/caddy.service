@@ -4,8 +4,8 @@ Documentation=https://caddyserver.com/docs/
 After=network.target
 
 [Service]
-User=caddy
-Group=caddy
+User={{ user }}
+Group={{ user }}
 ExecStart=/usr/local/bin/caddy run --environ --config {{ config_file }} {% if enable_api %}--resume{% endif %}
 ExecReload=/usr/local/bin/caddy reload --config {{ config_file }}
 TimeoutStopSec=5s

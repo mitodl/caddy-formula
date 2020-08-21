@@ -23,8 +23,16 @@ create_caddy_user:
 download_caddy_binary:
   archive.extracted:
     - name: /usr/local/bin/
-    - source: {{ caddy.download_url }}/v{{ caddy.version }}/caddy_{{ caddy.version }}_linux_{{ salt.grains.get('osarch') }}
+    - source: {{ caddy.download_url }}/v{{ caddy.version }}/caddy_{{ caddy.version }}_linux_{{ salt.grains.get('osarch') }}.tar.gz
     - source_hash: {{ caddy.download_url }}/v{{ caddy.version }}/caddy_{{ caddy.version }}_checksums.txt
+    - enforce_toplevel: False
+  file.managed:
+    - name: /usr/local/bin/caddy
+    - mode: '0755'
+    - require:
+        - archive: download_caddy_binary
+    - require_in:
+        - service: caddy_service_running
 
 create_caddy_config_directory:
   file.directory:
@@ -32,13 +40,32 @@ create_caddy_config_directory:
     - user: {{ caddy.user }}
     - recurse:
         - user
+    - require:
+        - user: create_caddy_user
+    - require_in:
+        - service: caddy_service_running
 
 create_caddy_data_directory:
   file.directory:
-    - name: /var/lib/caddy/
+    - name: {{ caddy.data_dir }}
     - user: {{ caddy.user }}
     - recurse:
         - user
+    - require:
+        - user: create_caddy_user
+    - require_in:
+        - service: caddy_service_running
+
+create_caddy_log_directory:
+  file.directory:
+    - name: {{ caddy.log_dir }}
+    - user: {{ caddy.user }}
+    - recurse:
+        - user
+    - require:
+        - user: create_caddy_user
+    - require_in:
+        - service: caddy_service_running
 {% endif %}
 
 create_caddy_service_definition:
@@ -54,6 +81,7 @@ create_caddy_service_definition:
     - context:
         enable_api: {{ caddy.enable_api }}
         config_file: {{ caddy.config_file }}
+        user: {{ caddy.user }}
     - require_in:
         - service: caddy_service_running
   cmd.run:
