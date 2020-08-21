@@ -73,6 +73,7 @@ create_caddy_service_definition:
     {% if caddy.install_from_repo %}
     - name: /etc/systemd/system/caddy.service.d/override.conf
     - source: salt://caddy/templates/caddy.service.override
+    - makedirs: True
     {% else %}
     - name: /etc/systemd/system/caddy.service
     - source: salt://caddy/templates/caddy.service
