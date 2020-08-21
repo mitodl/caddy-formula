@@ -23,7 +23,7 @@ create_caddy_user:
 download_caddy_binary:
   archive.extracted:
     - name: /usr/local/bin/
-    - source: {{ caddy.download_url }}/v{{ caddy.version }}/caddy_{{ caddy.version }}_linux_{{ salt.grains.get('osarch') }}.tar.gz
+    - source: {{ caddy.download_url }}/v{{ caddy.version }}/caddy_{{ caddy.version }}_linux_amd64.tar.gz
     - source_hash: {{ caddy.download_url }}/v{{ caddy.version }}/caddy_{{ caddy.version }}_checksums.txt
     - enforce_toplevel: False
   file.managed:
