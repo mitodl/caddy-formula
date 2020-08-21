@@ -19,6 +19,8 @@ create_caddy_user:
     - usergroup: True
     - createhome: False
     - system: True
+    - require_in:
+        - file: create_caddy_log_directory
 
 download_caddy_binary:
   archive.extracted:
@@ -55,6 +57,7 @@ create_caddy_data_directory:
         - user: create_caddy_user
     - require_in:
         - service: caddy_service_running
+{% endif %}
 
 create_caddy_log_directory:
   file.directory:
@@ -62,11 +65,8 @@ create_caddy_log_directory:
     - user: {{ caddy.user }}
     - recurse:
         - user
-    - require:
-        - user: create_caddy_user
     - require_in:
         - service: caddy_service_running
-{% endif %}
 
 create_caddy_service_definition:
   file.managed:
