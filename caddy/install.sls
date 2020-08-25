@@ -22,6 +22,16 @@ create_caddy_user:
     - require_in:
         - file: create_caddy_log_directory
 
+{% if caddy.custom_build %}
+download_custom_caddy_binary:
+  file.managed:
+    - name: /usr/local/bin/caddy
+    - source: https://caddyserver.com/api/download?os={{ caddy.custom_build.os }}&arch={{ caddy.custom_build.arch }}{{ '&p=' ~ caddy.custom_build.plugins|map('replace', '/', '%2F')|join('&p=') }}
+    - mode: '0755'
+    - skip_verify: True
+    - require_in:
+        - service: caddy_service_running
+{% else %}
 download_caddy_binary:
   archive.extracted:
     - name: /usr/local/bin/
@@ -35,6 +45,7 @@ download_caddy_binary:
         - archive: download_caddy_binary
     - require_in:
         - service: caddy_service_running
+{% endif %}
 
 create_caddy_config_directory:
   file.directory:

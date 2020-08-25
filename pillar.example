@@ -1,6 +1,16 @@
 # -*- mode: yaml -*-
 caddy:
   install_from_repo: False
+  custom_build:
+    os: linux
+    arch: amd64
+    plugins:
+      - github.com/abiosoft/caddy-exec
+      - github.com/caddy-dns/route53
+      - github.com/greenpau/caddy-auth
+      - github.com/greenpau/caddy-auth-jwt
+      - github.com/greenpau/caddy-auth-portal
+      - github.com/lolPants/caddy-requestid
   config:
     apps:
       http:
