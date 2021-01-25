@@ -9,7 +9,7 @@ Group={{ user }}
 ExecStart=/usr/local/bin/caddy run --environ --config {{ config_file }} {% if enable_api %}--resume{% endif %}
 ExecReload=/usr/local/bin/caddy reload --config {{ config_file }}
 TimeoutStopSec=5s
-PrivateTmp=true
+PrivateTmp=false
 ProtectSystem=full
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 
